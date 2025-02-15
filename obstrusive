@@ -1,0 +1,29 @@
+// Function to remove upgrade prompts and extension notifications
+function removeGrammarlyPrompts() {
+  // Select all elements with class names related to premium prompts
+  const premiumElements = document.querySelectorAll('[class*="premium"], [class*="upgrade"]');
+  
+  // Remove premium-related elements
+  premiumElements.forEach(element => element.remove());
+  
+  // Select and remove any extension installation prompts
+  const extensionPrompts = document.querySelectorAll('[class*="extension"], [class*="install"]');
+  extensionPrompts.forEach(prompt => prompt.remove());
+  
+  // Disable any buttons that might trigger prompts
+  const buttons = document.querySelectorAll('button');
+  buttons.forEach(button => {
+    if (button.textContent.toLowerCase().includes('upgrade') || 
+        button.textContent.toLowerCase().includes('install')) {
+      button.disabled = true;
+      button.style.display = 'none';
+    }
+  });
+}
+
+// Run the function initially
+removeGrammarlyPrompts();
+
+// Set up a MutationObserver to run the function when the DOM changes
+const observer = new MutationObserver(removeGrammarlyPrompts);
+observer.observe(document.body, { childList: true, subtree: true });
